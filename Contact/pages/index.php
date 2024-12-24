@@ -1,5 +1,3 @@
-index.php" et insérez-y le code suivant :
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -26,46 +24,48 @@ index.php" et insérez-y le code suivant :
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 d-flex justify-content-between">
-                        <h2 class="pull-left">Liste des étudiants</h2>
-                        <a href="create.php" class="btn btn-success"><i class="bi bi-plus"></i> Ajouter</a>
+                        <h2 class="pull-left">Liste des Contacts</h2>
+                        <a href="create.php" class="btn btn-success"><i class="bi bi-plus"></i>Ajouter</a>
                     </div>
                     <?php 
-/* Inclure le fichier config */
-require_once "config.php";
+    
+
+                    require_once "connexion.php";
                     
                     /* select query execution */
-                    $sql = "SELECT * FROM students";
+                    $sql = "SELECT * FROM Contact";
                     
-                    if($result = mysqli_query($link, $sql)){
-                        if(mysqli_num_rows($result) > 0){
+                    if($result = mysqli_query(mysql: $link, query: $sql)){
+                        if(mysqli_num_rows(result: $result) > 0){
                             echo '<table class="table table-bordered table-striped">';
                                 echo "<thead>";
                                     echo "<tr>";
-                                        echo "<th>#</th>";
+                                        echo "<th>ID</th>";
                                         echo "<th>Nom</th>";
-                                        echo "<th>Ecole</th>";
-                                        echo "<th>Age</th>";
-                                        echo "<th>Action</th>";
+                                        echo "<th>Prenom</th>";
+                                        echo "<th>Email</th>";
+                                        echo "<th>Telephone</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
-                                while($row = mysqli_fetch_array($result)){
+                                while($row = mysqli_fetch_array(result: $result)){
                                     echo "<tr>";
-                                        echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['nom'] . "</td>";
-                                        echo "<td>" . $row['ecole'] . "</td>";
-                                        echo "<td>" . $row['age'] . "</td>";
+                                        echo "<td>" . $row['ID'] . "</td>";
+                                        echo "<td>" . $row['Nom'] . "</td>";
+                                        echo "<td>" . $row['Prenom'] . "</td>";
+                                        echo "<td>" . $row['Email'] . "</td>";
+                                        echo "<td>" . $row['Numero'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="read.php?id='. $row['id'] .'" class="me-3" ><span class="bi bi-eye"></span></a>';
-                                            echo '<a href="update.php?id='. $row['id'] .'" class="me-3" ><span class="bi bi-pencil"></span></a>';
-                                            echo '<a href="delete.php?id='. $row['id'] .'" ><span class="bi bi-trash"></span></a>';
+                                            echo '<a href="read.php?id='. $row['ID'] .'" class="me-3" ><span class="bi bi-eye"></span></a>';
+                                            echo '<a href="update.php?id='. $row['ID'] .'" class="me-3" ><span class="bi bi-pencil"></span></a>';
+                                            echo '<a href="delete.php?id='. $row['ID'] .'" ><span class="bi bi-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
                                 echo "</tbody>";                            
                             echo "</table>";
                             /* Free result set */
-                            mysqli_free_result($result);
+                            mysqli_free_result(result: $result);
                         } else{
                             echo '<div class="alert alert-danger"><em>Pas d\'enregistrement</em></div>';
                         }
@@ -74,7 +74,7 @@ require_once "config.php";
                     }
  
                     /* Fermer connection */
-                    mysqli_close($link);
+                    mysqli_close(mysql: $link);
                     ?>
                 </div>
             </div>        
