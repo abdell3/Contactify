@@ -71,6 +71,26 @@
         return false;
     }
 }
+  public function deleteContact($id) {
+       $sql = "DELETE FROM Contact WHERE ID = :id";
+
+  try {
+      
+      $stmt = $this->connexion->prepare($sql);
+
+      // Lier le paramètre
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+      
+      if ($stmt->execute()) {
+          return true;
+      }
+      return false;
+  } catch (PDOException $e) {
+      echo "Erreur de suppression : " . $e->getMessage();
+      return false;
+  }
+}
    
    }
 
