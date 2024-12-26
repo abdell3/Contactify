@@ -52,7 +52,7 @@
     $sql = "INSERT INTO Contact (Nom, Prenom, Email, Numero) VALUES (:nom, :prenom, :email, :numero)";
     
     try {
-        // Préparer la requête
+        
         $stmt = $this->connexion->prepare($sql);
 
         
@@ -78,7 +78,7 @@
       
       $stmt = $this->connexion->prepare($sql);
 
-      // Lier le paramètre
+      
       $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
       
