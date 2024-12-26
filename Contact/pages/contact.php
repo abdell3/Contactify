@@ -7,8 +7,8 @@
     private $Numero;
     private $connexion;
 
-    public function __construct($db){
-      $this->connexion = $db;
+    public function __construct($connexion){
+      $this->connexion = $connexion;
     }
 
     public function getID(){
@@ -38,24 +38,59 @@
    public function setNumero($Numero){
     $this->Numero = $Numero;
    }
-   public function getAllContact(){
+   public function getContact() {
     $sql = "SELECT * FROM Contact";
-    $sth = $this->connexion->prepare($sql);
-    return $sth->fetchAll(PDO::FETCH_ASSOC);
-   }   
-   public function Create() {
-    $sql = "INSERT INTO Contact VALUES ()";
-    $stmt = $this->connexion->prepare($sql);
+    try {
+        $stmt = $this->connexion->query($sql);
+        return $stmt;
+    } catch (PDOException $e) {
+        echo "Erreur de requête: " . $e->getMessage();
+        return null;
+    } 
+  }
+  public function createContact($nom, $prenom, $email, $numero) {
+    $sql = "INSERT INTO Contact (Nom, Prenom, Email, Numero) VALUES (:nom, :prenom, :email, :numero)";
     
-    $stmt->bindParam(':nom', $this->Nom);
-    $stmt->bindParam(':prenom', $this->Prenom);
-    $stmt->bindParam(':email', $this->Email);
-    $stmt->bindParam(':numero', $this->Numero);
+    try {
+        // Préparer la requête
+        $stmt = $this->connexion->prepare($sql);
 
-    if ($stmt->execute()) {
-        return true;
+        
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':prenom', $prenom);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':numero', $numero);
+
+        
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    } catch (PDOException $e) {
+        echo "Erreur d'insertion : " . $e->getMessage();
+        return false;
     }
-    return false;
 }
+  public function deleteContact($id) {
+       $sql = "DELETE FROM Contact WHERE ID = :id";
+
+  try {
+      
+      $stmt = $this->connexion->prepare($sql);
+
+      // Lier le paramètre
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+      
+      if ($stmt->execute()) {
+          return true;
+      }
+      return false;
+  } catch (PDOException $e) {
+      echo "Erreur de suppression : " . $e->getMessage();
+      return false;
+  }
+}
+   
    }
 
