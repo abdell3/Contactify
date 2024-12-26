@@ -5,17 +5,9 @@
     <title>Liste Contact</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../style/styles.css" rel="stylesheet">
 
-
-    <style>
-        .wrapper{
-            width: 700px;
-            margin: 0 auto;
-        }
-        table tr td:last-child{
-            width: 120px;
-        }
-    </style>
+   
    
 </head>
 <body>
@@ -28,30 +20,23 @@
                         <a href="create.php" class="btn btn-success"><i class="bi bi-plus"></i>Ajouter</a>
                     </div>
                     <?php 
-                       require_once "connexion.php";  
-                       require_once "contact.php";
+                       require_once 'connexion.php';  
+                       require_once 'contact.php';
 
+                       $contacts = new Contact($connexion);
 
-
-                       class Contacts {
-                        public $connexion;
-
-                        public function __construct($connexion) {
-                            $this->connexion = $connexion;
-                        }
-                           
-                        }
+                       $stmt = $contacts->getContact();
                         
                         $sql = "SELECT * FROM Contact";
 
                         
 
-                        try{
+                        // try{
    
-                        $stmt = $connexion->query($sql);
+                        // $stmt = $connexion->query($sql);
     
     
-                        if ($stmt->rowCount() > 0) {
+                        if ($stmt && $stmt->rowCount() > 0) {
                              echo '<table class="table table-bordered table-striped">';
                              echo "<thead>";
                              echo "<tr>";
@@ -85,14 +70,10 @@
                   } else {
                        echo '<div class="alert alert-danger"><em>Pas d\'enregistrement</em></div>';
                   }
-             } catch (PDOException $e) {
-                 echo "Oops! Une erreur est survenue. " . $e->getMessage();
-             }
-            
             ?>
                 </div>
             </div>        
-        </div>
+        </div>  
     </div>
 </body>
 </html>
